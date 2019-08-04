@@ -47,11 +47,15 @@ return ans;
 }
 
 int main(){
-    string a;
-    cin >> a;
-    string b;
-    cin >> b;
-    cout << Diff(a, b) << endl;
+
+    int T;
+    cin >>T;
+    while(T--){
+        string a;
+        cin >> a;
+        string b;
+        cin >> b;
+        cout << Diff(a, b) << endl;}
     return 0;
 
 }
