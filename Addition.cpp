@@ -38,9 +38,13 @@ return ans;
 }
 
 int main(){
-string a, b;
-cin >> a;
-cin >> b;
-cout << SUM(a, b) << endl;
+
+    int T;
+    cin >> T;
+    while(T--){
+        string a, b;
+        cin >> a;
+        cin >> b;
+        cout << SUM(a, b) << endl;}
 return 0;
 }
