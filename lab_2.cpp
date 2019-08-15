@@ -27,6 +27,27 @@ free(temp);
 void Del( Node **head_ref, int a, int b){
      Node *temp = *head_ref, *prev;
 
+    if(temp==NULL) {cout << "-1"; return ;}
+	if(temp!=NULL && temp->x==a && temp->y==b){
+		*head_ref = temp->next;
+		free(temp);
+		return;
+	}
+
+	while((temp != NULL)  && (temp->x !=a) && (temp->y !=b)){
+        prev = temp;
+        temp = temp->next;
+	}
+
+	if(temp==NULL)  {cout << "-1"; return ;}
+
+	prev->next = temp->next;
+	free(temp);
+
+}
+/*void Del( Node **head_ref, int a, int b){
+     Node *temp = *head_ref, *prev;
+
     if(temp==NULL) cout << "-1\n"; return;
 	if(temp!=NULL && temp->x==a && temp->y==b){
 		*head_ref = temp->next;
@@ -39,23 +60,25 @@ void Del( Node **head_ref, int a, int b){
         temp = temp->next;
 	}
 
-	if(temp==NULL) cout << "-1\n"; return;
+	if(temp==NULL) return;
 
 	prev->next = temp->next;
 	free(temp);
 
-}
+}*/
 
 void Search_d( Node **head_ref, float d){
     Node* temp;
     temp=*head_ref;
+    int c=0;
 	while(temp!=NULL)
 	{
 		float dist=(temp->x)*(temp->x)+(temp->y)*(temp->y);
-		if(dist<=d*d){cout<<"("<<temp->x<<", "<<temp->y<<") ";}
+		if(dist<=d*d) c++;
 		temp=temp->next;
 	}
-
+	if(c==0) {cout << "-1"; return ;}
+	else {cout<< c ; return ;}
 }
 
 int Search(Node **head_ref, int a, int b ){
@@ -112,7 +135,3 @@ int main(){
     }
 }
 }
-
-
-
-
