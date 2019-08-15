@@ -40,9 +40,9 @@ void Del( Node **head_ref, int a, int b){
 	}
 
 	if(temp==NULL) { cout << "-1\n"; return;}
-
+	else{
 	prev->next = temp->next;
-	free(temp);
+	free(temp);}
 
 }
 
