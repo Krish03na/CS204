@@ -18,10 +18,10 @@ new_node->next = *head_ref;
 }
 
 void DelFirst( Node **head_ref){
-if(*head_ref == NULL) cout << "-1\n"; return ;
- Node *temp = *head_ref;
-*head_ref = temp->next;
-free(temp);
+if(*head_ref == NULL) {cout << "-1\n"; return ;}
+
+*head_ref = (*head_ref)->next;
+
 }
 
 void Del( Node **head_ref, int a, int b){
