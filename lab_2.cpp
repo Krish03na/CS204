@@ -27,7 +27,7 @@ if(*head_ref == NULL) {cout << "-1\n"; return ;}
 void Del( Node **head_ref, int a, int b){
      Node *temp = *head_ref, *prev;
 
-    if(temp==NULL) cout << "-1\n"; return;
+    if(temp==NULL){ cout << "-1\n"; return;}
 	if(temp!=NULL && temp->x==a && temp->y==b){
 		*head_ref = temp->next;
 		free(temp);
