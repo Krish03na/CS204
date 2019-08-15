@@ -39,7 +39,7 @@ void Del( Node **head_ref, int a, int b){
         temp = temp->next;
 	}
 
-	if(temp==NULL) return;
+	if(temp==NULL) cout << "-1\n"; return;
 
 	prev->next = temp->next;
 	free(temp);
