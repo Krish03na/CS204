@@ -27,27 +27,6 @@ free(temp);
 void Del( Node **head_ref, int a, int b){
      Node *temp = *head_ref, *prev;
 
-    if(temp==NULL) {cout << "-1"; return ;}
-	if(temp!=NULL && temp->x==a && temp->y==b){
-		*head_ref = temp->next;
-		free(temp);
-		return;
-	}
-
-	while((temp != NULL)  && (temp->x !=a) && (temp->y !=b)){
-        prev = temp;
-        temp = temp->next;
-	}
-
-	if(temp==NULL)  {cout << "-1"; return ;}
-
-	prev->next = temp->next;
-	free(temp);
-
-}
-/*void Del( Node **head_ref, int a, int b){
-     Node *temp = *head_ref, *prev;
-
     if(temp==NULL) cout << "-1\n"; return;
 	if(temp!=NULL && temp->x==a && temp->y==b){
 		*head_ref = temp->next;
@@ -65,7 +44,7 @@ void Del( Node **head_ref, int a, int b){
 	prev->next = temp->next;
 	free(temp);
 
-}*/
+}
 
 void Search_d( Node **head_ref, float d){
     Node* temp;
