@@ -8,26 +8,26 @@ et* right;
 et* parent;
 };
 
-bool isOperator(char c) 
-{ 
-    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%') 
-        return true; 
-    return false; 
-} 
+bool isOperator(char c)
+{
+    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%')
+        return true;
+    return false;
+}
 
 
-int prec(char c){ 
-    if(c == '^') 
-    return 3; 
-    else if(c == '*' || c == '/' || c == '%') 
-    return 2; 
-    else if(c == '+' || c == '-') 
-    return 1; 
+int prec(char c){
+    if(c == '^')
+    return 3;
+    else if(c == '*' || c == '/' || c == '%')
+    return 2;
+    else if(c == '+' || c == '-')
+    return 1;
     else
-    return -1; 
-} 
+    return -1;
+}
 
-int mapo(char c)
+int Map(char c)
 {
     switch(c)
     {
@@ -41,13 +41,13 @@ int mapo(char c)
 }
 
 
-et* newNode(int v) 
-{ 
-    et *temp = new et; 
-    temp->left = temp->right = NULL; 
-    temp->value = v; 
-    return temp; 
-}; 
+et* newNode(int v)
+{
+    et *temp = new et;
+    temp->left = temp->right = NULL;
+    temp->value = v;
+    return temp;
+};
 
 
 
@@ -55,7 +55,7 @@ et* newNode(int v)
 
 et* construct_tree(stack<int> s){
 
-    et *t,*t1,*t2;   
+    et *t,*t1,*t2;
     stack<et *> st;
     while(!s.empty())
     {
@@ -82,105 +82,104 @@ et* construct_tree(stack<int> s){
     }
     return t;
 }
- 
+
 
 
 
 
 stack<int> infix_to_postfix(char *s)
 {
-    stack<int> S,O;
-    int f=0,a;
-    O.push('N');
+    stack<int> st,x;
+    int p=0,a;
+    x.push('N');
     for(int i=0;i<strlen(s);i++)
     {
         if(s[i]>='0'&&s[i]<='9')
         {
-            if(f)
+            if(p)
             {
-                a=S.top();
-                S.pop();
-                S.push(a*10+s[i]-'0');
+                a=st.top();
+                st.pop();
+                st.push(a*10+s[i]-'0');
             }
-            else 
+            else
             {
-                S.push(s[i]-'0');
-                f=1;
+                st.push(s[i]-'0');
+                p=1;
             }
         }
 
-        else 
+        else
         {
-            f=0;
+            p=0;
             if(s[i]=='(')
-                O.push('(');
+                x.push('(');
             else if(s[i]==')')
             {
-                while(O.top()!='N'&&O.top()!='(')
+                while(x.top()!='N'&&x.top()!='(')
                 {
-                    char c=O.top();
-                    O.pop();
-                    S.push(mapo(c));
+                    char c=x.top();
+                    x.pop();
+                    st.push(Map(c));
                 }
-                if(O.top()=='(')
-                    O.pop();   
+                if(x.top()=='(')
+                    x.pop();
             }
             else if(isOperator(s[i]))
             {
-                while(O.top()!='N'&&O.top()!='('&&prec(s[i])<=prec(O.top()))
+                while(x.top()!='N'&&x.top()!='('&&prec(s[i])<=prec(x.top()))
                 {
-                    char c=O.top();
-                    O.pop();
-                    S.push(mapo(c));
+                    char c=x.top();
+                    x.pop();
+                    st.push(Map(c));
                 }
-                O.push(s[i]);
+                x.push(s[i]);
             }
         }
     }
-    while(O.top()!='N')
+    while(x.top()!='N')
         {
-            char c=O.top();
-            O.pop();
-            S.push(mapo(c));
+            char c=x.top();
+            x.pop();
+            st.push(Map(c));
         }
-    return S;
+    return st;
 }
 
 
+int eval(et* root)
+{
 
-int eval(et* root)  
-{  
-     
-   if (!root)  
-        return 0;  
-  
-      
-    if (!root->left && !root->right)  
-        return root->value;  
-  
-   
-    int l_val = eval(root->left);  
-  
-    
-    int r_val = eval(root->right);  
-  
-   
-    if (root->value==-1)  
-        return l_val+r_val;  
-  
-    if (root->value==-2)  
-        return l_val-r_val;  
-  
-    if (root->value==-3)  
-        return l_val*r_val;  
+   if (!root)
+        return 0;
+
+
+    if (!root->left && !root->right)
+        return root->value;
+
+
+    int l_val = eval(root->left);
+
+
+    int r_val = eval(root->right);
+
+
+    if (root->value==-1)
+        return l_val+r_val;
+
+    if (root->value==-2)
+        return l_val-r_val;
+
+    if (root->value==-3)
+        return l_val*r_val;
 
     if(root->value==-4)
         return l_val/r_val;
-    return pow(l_val,r_val);   
-}  
-  
+    return pow(l_val,r_val);
+}
+
 int main()
-{   
+{
     int T;
     cin>>T;
     while(T--)
@@ -191,7 +190,7 @@ int main()
         {
             char s[100000];
             cin>>s;
-           
+
             stack <int> st,s1;
             st = infix_to_postfix(s);
             while(!st.empty())
@@ -199,12 +198,11 @@ int main()
                 s1.push(st.top());
                 st.pop();
             }
-            
+
             et *p=construct_tree(s1);
-            
+
             cout<<eval(p)<<endl;
-            
+
         }
     }
 }
-
