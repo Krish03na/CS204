@@ -10,7 +10,7 @@ et* parent;
 
 bool isOperator(char c)
 {
-    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%')
+    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '$'|| c == '%')
         return true;
     return false;
 }
@@ -23,7 +23,9 @@ int prec(char c){
     return 2;
     else if(c == '+' || c == '-')
     return 1;
-    else
+    else if(c=='$')
+	return 4;
+
     return -1;
 }
 
@@ -36,10 +38,10 @@ int Map(char c)
         case '*': return -3;
         case '/': return -4;
         case '^': return -5;
+        case '$': return -2;
 	default : return 3;
     }
 }
-
 
 et* newNode(int v)
 {
@@ -49,12 +51,8 @@ et* newNode(int v)
     return temp;
 };
 
-
-
-
-
-et* construct_tree(stack<int> s){
-
+et * construct_tree(stack<long long > s)
+{
     et *t,*t1,*t2;
     stack<et *> st;
     while(!s.empty())
@@ -72,10 +70,9 @@ et* construct_tree(stack<int> s){
             st.pop();
             t2=st.top();
             st.pop();
-
-            t->right=t1;
-            t->left=t2;
-
+            if(1)
+            {t->right=t1;
+            t->left=t2;}
             st.push(t);
             s.pop();
         }
@@ -83,16 +80,12 @@ et* construct_tree(stack<int> s){
     return t;
 }
 
-
-
-
-
-stack<int> infix_to_postfix(char *s)
+stack<long long > infix_to_postfix(string s)
 {
-    stack<int> st,x;
+    stack<long long > st,x;
     int p=0,a;
     x.push('N');
-    for(int i=0;i<strlen(s);i++)
+    for(long long i=0;i<s.length();i++)
     {
         if(s[i]>='0'&&s[i]<='9')
         {
@@ -125,9 +118,19 @@ stack<int> infix_to_postfix(char *s)
                 if(x.top()=='(')
                     x.pop();
             }
-            else if(isOperator(s[i]))
+            else if(isOperator(s[i])&&s[i]!='^'&&s[i]!='$')
             {
                 while(x.top()!='N'&&x.top()!='('&&prec(s[i])<=prec(x.top()))
+                {
+                    char c=x.top();
+                    x.pop();
+                    st.push(Map(c));
+                }
+                x.push(s[i]);
+            }
+            else if(s[i]=='^'||s[i]=='$')
+            {
+                while(x.top()!='N'&&x.top()!='('&&prec(s[i])<prec(x.top()))
                 {
                     char c=x.top();
                     x.pop();
@@ -146,8 +149,7 @@ stack<int> infix_to_postfix(char *s)
     return st;
 }
 
-
-int eval(et* root)
+long long eval(et* root)
 {
 
    if (!root)
@@ -180,29 +182,39 @@ int eval(et* root)
 
 int main()
 {
-    int T;
+    long long T;
     cin>>T;
     while(T--)
     {
-        int n;
+        long long n;
         cin>>n;
-        while(n--)
-        {
-            char s[100000];
-            cin>>s;
-
-            stack <int> st,s1;
-            st = infix_to_postfix(s);
-            while(!st.empty())
+        while(n--){
+                int a=1;
+                string s;
+                cin>>s;
+            for(int i=0;i<s.length();i++)
             {
-                s1.push(st.top());
-                st.pop();
+                if(a&&s[i]=='-')
+                {
+                    s[i]='$';
+                    s.insert(i,"0");
+                }
+                if(isOperator(s[i])||s[i]=='(')
+                    a=1;
+                else a=0;
             }
 
-            et *p=construct_tree(s1);
-
-            cout<<eval(p)<<endl;
-
+                stack <long long > st ,s1;
+                st=infix_to_postfix(s);
+                while(!st.empty())
+                {
+                    s1.push(st.top());
+                    st.pop();
+                }
+                et *t = construct_tree(s1);
+                cout<<eval(t)<<endl;
         }
+
     }
 }
+
