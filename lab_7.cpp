@@ -19,6 +19,7 @@ void Sort(string X[], string Y[], int N)
 
 int main()
 {
+	
     int T;
     cin>>T;
     while(T--)
