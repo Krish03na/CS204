@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ 
+typedef long long ll;
+int bipartite=1;
+
+int color_graph(int k,int color[],vector<int> v[],int visited[])
+{
+	visited[k]=1;
+	for(auto i:v[k]){
+		if(color[i]==-1){
+		    color[i]=1-(color[k]);
+		}
+	    else if(color[i]==color[k]){
+    		
+    		bipartite=0;
+    		return 0;
+    	}
+	}
+	for(auto i:v[k]){
+	    
+		if(visited[i]==0)
+		   color_graph(i,color,v,visited);
+	}	
+}
+
+int main()
+{
+	int n, m, e=0;
+	cin>>n>>m;
+	vector<int> v[n+m];
+	for(int i=0;i<=m-1;i++){
+		int x,y,w;
+		cin>>x>>y>>w;
+		if(w%2==1)
+		{	
+			v[x].push_back(y);
+			v[y].push_back(x);
+		}
+		else
+		{
+			v[x].push_back(n+e);
+			v[n+e].push_back(x);
+
+			v[y].push_back(n+e);
+			v[n+e].push_back(y);
+
+			e++;
+		}
+
+	}
+	n=n+e;
+	int visited[n];
+	for(int i=0;i<=n-1;i++)
+	{
+		visited[i]=0;
+	}
+
+	int color[n];
+	for(int i=0;i<=n-1;i++)
+	{
+		color[i]=-1;
+	}
+    for(int i=0;i<=n-1;i++){
+    	
+    	if(color[i]==-1) 
+    		{   color[i]=0;
+    			color_graph(i,color,v,visited);
+    		}
+    	
+    }
+
+    if(bipartite==0)
+    	cout<<"YES\n";
+    else
+    	cout<<"NO\n";
+
+}
